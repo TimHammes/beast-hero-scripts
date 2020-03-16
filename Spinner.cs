@@ -20,7 +20,7 @@ public class Spinner : MonoBehaviour
   public Transform target;
   public bool dead;
   public float attackTimer;
-  public float attackTime = .1f;
+  public float attackTime = .2f;
   public bool isHit;
   public float navigationUpdate;
   public float distanceToPlayer;
@@ -50,18 +50,30 @@ public class Spinner : MonoBehaviour
  
   }
 
- 
-  void OnCollisionEnter(Collision collider)
+  private void OnCollisionEnter(Collision collision)
+  {
+    if (collision.gameObject.tag == "Player")
+    {
+      var magnitude = 1500;
+      var force = transform.position - collision.transform.position;
+      force.Normalize();
+
+      gameObject.GetComponent<Rigidbody>().AddForce(force * magnitude);
+
+
+    }
+  }
+  void OnTriggerEnter(Collider collider)
   {
 
-    int deathBlow = 6;
+    int deathBlow = 8;
 
     if (collider.gameObject.tag == "RightSword" || collider.gameObject.tag == "LeftSword")
     {
       if (!isHit && dead != true)
       {
         isHit = true;
-        var magnitude = 3000;
+        var magnitude = 2000;
         var force = transform.position - collider.transform.position;
         force.Normalize();
         gameObject.GetComponent<Rigidbody>().AddForce(force * magnitude);
@@ -91,16 +103,8 @@ public class Spinner : MonoBehaviour
       }
     }
 
-    if (collider.gameObject.tag == "Player")
-    {
-      var magnitude = 3000;
-      var force = transform.position - collider.transform.position;
-      force.Normalize();
-
-      gameObject.GetComponent<Rigidbody>().AddForce(force * magnitude);
-
-
-    }
+    
+   
   }
 
   IEnumerator deadSpiderTimer()

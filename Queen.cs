@@ -58,7 +58,7 @@ public class Queen : MonoBehaviour
       if (!isHit && dead != true)
       {
         isHit = true;
-        var magnitude = 4000;
+        var magnitude = 2500;
         var force = transform.position - collider.transform.position;
         force.Normalize();
         gameObject.GetComponent<Rigidbody>().AddForce(force * magnitude);

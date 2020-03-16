@@ -14,18 +14,17 @@ public class Pede : MonoBehaviour
 
   private NavMeshAgent agent;
   private int numberCollisions = 0;
-  private bool isSpawned;
   private float navigationTime = 0;
+  private bool isSpawned;
 
   public Animator pedeAnimate;
   public ParticleSystem spawned;
   public Transform target;
   public float distanceToTarget;
-  public int damage = 10;
   public bool dead = false;   //was static
   public float navigationUpdate;
   public float attackTimer;
-  public float attackTime = .1f;
+  public float attackTime = .2f;
   public float distanceToPlayer;
   public bool isHit;
   public bool isDying;
@@ -83,7 +82,7 @@ public class Pede : MonoBehaviour
       if (!isHit && dead != true)
       {
         isHit = true;
-        var magnitude = 3000;
+        var magnitude = 2000;
         var force = transform.position - collider.transform.position;
 
         force.Normalize();
@@ -115,7 +114,7 @@ public class Pede : MonoBehaviour
 
     if (collider.gameObject.tag == "Player")
     {
-      var magnitude = 2000;
+      var magnitude = 1500;
       var force = transform.position - collider.transform.position;
       force.Normalize();
 
@@ -167,7 +166,7 @@ public class Pede : MonoBehaviour
     distanceToPlayer = Vector3.Distance(this.transform.position, target.position);
     if (distanceToPlayer < 8.0f)
     {
-      agent.speed = 7;
+      agent.speed = 8;
     }
 
     if (isHit)

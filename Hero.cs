@@ -28,7 +28,9 @@ public class Hero : MonoBehaviour
   OVRManager ovrManager;
   GameObject player;
   GameObject playerCube;
+  GameObject leftHand;
   GameObject sword;
+  GameObject otherSword;
   GameObject[] swordEye;
   GameObject grip;
   GameObject swordLeft;
@@ -54,6 +56,8 @@ public class Hero : MonoBehaviour
   {
     swordLeft = GameObject.FindGameObjectWithTag("LeftSword");
     swordRight = GameObject.FindGameObjectWithTag("RightSword");
+
+    leftHand = GameObject.FindGameObjectWithTag("LeftHand");
   }
   void Start()
   {
@@ -62,9 +66,11 @@ public class Hero : MonoBehaviour
     characterController = player.GetComponent<CharacterController>();
     ovrManager = GameObject.Find("OVRCameraRig").GetComponent<OVRManager>();
     avatar = GameObject.Find("LocalAvatar").GetComponent<OvrAvatar>();
-    sword = GameObject.Find("Weapon");
+
+    
+    //sword = GameObject.Find("Weapon");
+   
     grip = GameObject.Find("RightHandAnchor");
-    gameOverCanvas = GameObject.FindGameObjectWithTag("GameOverCanvas");
     swordEye = GameObject.FindGameObjectsWithTag("swordEye");
     trackingAnchor = GameObject.Find("TrackerAnchor");
     gManager = GameObject.Find("GameManager");
@@ -110,13 +116,15 @@ public class Hero : MonoBehaviour
       sword.GetComponent<Rigidbody>().useGravity = true;
       sword.GetComponent<BoxCollider>().isTrigger = true;
 
-      gameObject.GetComponentInParent<OVRPlayerController>().enabled = false;
+      sword.transform.parent = gameObject.transform.parent;
 
+      gameObject.GetComponentInParent<OVRPlayerController>().enabled = false;
+      
+      avatar.EnableHands = false;
       avatar.ShowFirstPerson = false;
+
       //ovrManager.headPoseRelativeOffsetRotation = Vector3.Lerp(ovrManager.headPoseRelativeOffsetRotation, gameObject.transform.position, .2f);    turns player parallel to ground
 
-      gameOverCanvas.GetComponent<Canvas>().enabled = true;
-      gameOverCanvas.transform.parent = trackingAnchor.transform;
    
     }
   }
@@ -262,8 +270,18 @@ public class Hero : MonoBehaviour
   void Update()
   {
     ChooseHands();
-    
-   
+
+    if (isRightHanded == true)
+    {
+      sword = GameObject.Find("Weapon");
+    }
+
+    if (isRightHanded != true)
+    {
+      sword = GameObject.Find("Weapon Left");
+    }
+
+
     if (isHit)
     {
       timeSinceHit += Time.deltaTime;

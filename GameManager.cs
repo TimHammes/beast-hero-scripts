@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour
 
   public GameObject player;
   public Hero playerScript;
-  public int playerHealth = 15;
+  public int playerHealth = 20;
   public Pede[] pedes;
   public Spinner[] spinners;
   public static GameObject Algae;
@@ -83,6 +83,11 @@ public class GameManager : MonoBehaviour
   void Update()
   {
     GetGameLevel();
+
+
+    if (Input.GetKey(KeyCode.Space)){
+      Application.Quit();
+    }
     
  
   }
